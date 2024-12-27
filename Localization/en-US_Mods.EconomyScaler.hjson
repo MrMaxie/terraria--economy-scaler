@@ -1,2 +1,27 @@
-# This file will automatically update with entries for new content after a build and reload.
+Configs: {
+	EconomyScalerConfig: {
+		DisplayName: EconomyScaler Config
 
+		ItemPriceMultiplier: {
+			Tooltip: ""
+			Label: Item Price Multiplier
+		}
+
+		MoneyDropMultiplier: {
+			Label: Money Drop Multiplier
+			Tooltip: ""
+		}
+	}
+}
+
+Config: {
+	MoneyDropMultiplier: {
+		Label: Money Drop Multiplier
+		Tooltip: ""
+	}
+
+	ItemPriceMultiplier: {
+		Label: Item Price Multiplier
+		Tooltip: ""
+	}
+}

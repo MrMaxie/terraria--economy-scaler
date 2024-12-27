@@ -1,0 +1,27 @@
+Configs: {
+	EconomyScalerConfig: {
+		DisplayName: Konfiguracja EconomyScaler
+
+		ItemPriceMultiplier: {
+			// Tooltip: ""
+			// Label: Item Price Multiplier
+		}
+
+		MoneyDropMultiplier: {
+			// Label: Money Drop Multiplier
+			// Tooltip: ""
+		}
+	}
+}
+
+Config: {
+	MoneyDropMultiplier: {
+		Label: Mnożnik Wypadających Monet
+		Tooltip: ""
+	}
+
+	ItemPriceMultiplier: {
+		Label: Mnożnik Cen Przedmiotów
+		Tooltip: ""
+	}
+}

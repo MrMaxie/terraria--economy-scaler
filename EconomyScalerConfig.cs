@@ -1,3 +1,6 @@
+using System.ComponentModel;
+using System.Globalization;
+using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace EconomyScaler
@@ -8,37 +11,57 @@ namespace EconomyScaler
 
         [LabelKey("$Mods.EconomyScaler.Config.MoneyDropMultiplier.Label")]
         [TooltipKey("$Mods.EconomyScaler.Config.MoneyDropMultiplier.Tooltip")]
-        [Range(0.1f, 25f)]
-        public float MoneyDropMultiplier { get; set; }
+        [DefaultValue("1.0")]
+        public string MoneyDropMultiplierText { get; set; } = "1.0";
 
-        [LabelKey("$Mods.EconomyScaler.Config.ItemBuyPriceMultiplier.Label")]
-        [TooltipKey("$Mods.EconomyScaler.Config.ItemBuyPriceMultiplier.Tooltip")]
-        [Range(0.1f, 25f)]
-        public float ItemBuyPriceMultiplier { get; set; }
+        [LabelKey("$Mods.EconomyScaler.Config.ItemPriceMultiplier.Label")]
+        [TooltipKey("$Mods.EconomyScaler.Config.ItemPriceMultiplier.Tooltip")]
+        [ReloadRequired]
+        [DefaultValue("1.0")]
+        public string ItemPriceMultiplierText { get; set; } = "1.0";
 
-        [LabelKey("$Mods.EconomyScaler.Config.ItemSellPriceMultiplier.Label")]
-        [TooltipKey("$Mods.EconomyScaler.Config.ItemSellPriceMultiplier.Tooltip")]
-        [Range(0.1f, 25f)]
-        public float ItemSellPriceMultiplier { get; set; }
+        public float GetMoneyDropMultiplier() => SafeToFloat(MoneyDropMultiplierText, 1f);
 
-        private static float ToRange(float value, float min, float max, float? def)
+        public float GetItemPriceMultiplier() => SafeToFloat(ItemPriceMultiplierText, 1f);
+
+        private static float SafeToFloat(string value, float def)
         {
-            if (value < min)
+            value = value.Replace(',', '.');
+
+            if (float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out float result))
             {
-                return def ?? min;
+                return result;
             }
-            if (value > max)
+
+            return def;
+        }
+
+        private static float ToRange(float value, float min, float max, float def)
+        {
+            if (value < min || value > max)
             {
-                return def ?? max;
+                return def;
             }
             return value;
         }
 
         private void EnsureValidValues()
         {
-            MoneyDropMultiplier = ToRange(MoneyDropMultiplier, 0.1f, 25f, 1f);
-            ItemBuyPriceMultiplier = ToRange(ItemBuyPriceMultiplier, 0.1f, 25f, 1f);
-            ItemSellPriceMultiplier = ToRange(ItemSellPriceMultiplier, 0.1f, 25f, 1f);
+            var drop = GetMoneyDropMultiplier();
+            var price = GetItemPriceMultiplier();
+
+            var validDrop = ToRange(drop, 0.01f, 10_000f, 1f);
+            var validPrice = ToRange(price, 0.01f, 10_000f, 1f);
+
+            if (drop != validDrop)
+            {
+                MoneyDropMultiplierText = validDrop.ToString();
+            }
+
+            if (price != validPrice)
+            {
+                ItemPriceMultiplierText = validPrice.ToString();
+            }
         }
 
         public override void OnChanged()
