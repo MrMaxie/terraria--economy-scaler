@@ -1,0 +1,3 @@
+displayName = Economy Scaler
+author = maxiepl
+version = 1.0
