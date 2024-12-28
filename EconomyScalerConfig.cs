@@ -19,7 +19,6 @@ namespace EconomyScaler
         [LabelKey("$Mods.EconomyScaler.Config.ItemPriceMultiplier.Label")]
         [TooltipKey("$Mods.EconomyScaler.Config.ItemPriceMultiplier.Tooltip")]
         [DefaultValue("1.0")]
-        [ReloadRequired]
         public string ItemPriceMultiplierText { get; set; } = "1.0";
 
         private float _moneyDropMultiplier = 1f;
@@ -84,6 +83,16 @@ namespace EconomyScaler
         public override void OnLoaded()
         {
             EnsureValidValues(true);
+        }
+
+        public override bool NeedsReload(ModConfig pendingConfig)
+        {
+            try {
+                var config = pendingConfig as EconomyScalerConfig;
+                return _itemPriceMultiplier != SafeToFloat(config.ItemPriceMultiplierText, 1f);
+            } catch {
+                return false;
+            }
         }
     }
 }
