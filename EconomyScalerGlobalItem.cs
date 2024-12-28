@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace EconomyScaler
@@ -8,8 +10,9 @@ namespace EconomyScaler
         public override void SetDefaults(Item item)
         {
             var config = ModContent.GetInstance<EconomyScalerConfig>();
+            var multiplier = config.GetItemPriceMultiplier();
 
-            item.value = (int)(item.value * config.GetItemPriceMultiplier());
+            item.value = (int)(item.value * multiplier);
         }
     }
 }

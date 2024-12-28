@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.Globalization;
+using System.Linq;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
@@ -16,13 +18,17 @@ namespace EconomyScaler
 
         [LabelKey("$Mods.EconomyScaler.Config.ItemPriceMultiplier.Label")]
         [TooltipKey("$Mods.EconomyScaler.Config.ItemPriceMultiplier.Tooltip")]
-        [ReloadRequired]
         [DefaultValue("1.0")]
+        [ReloadRequired]
         public string ItemPriceMultiplierText { get; set; } = "1.0";
 
-        public float GetMoneyDropMultiplier() => SafeToFloat(MoneyDropMultiplierText, 1f);
+        private float _moneyDropMultiplier = 1f;
 
-        public float GetItemPriceMultiplier() => SafeToFloat(ItemPriceMultiplierText, 1f);
+        private float _itemPriceMultiplier = 1f;
+
+        public float GetMoneyDropMultiplier() => _moneyDropMultiplier;
+
+        public float GetItemPriceMultiplier() => _itemPriceMultiplier;
 
         private static float SafeToFloat(string value, float def)
         {
@@ -45,22 +51,28 @@ namespace EconomyScaler
             return value;
         }
 
-        private void EnsureValidValues()
+        private void EnsureValidValues(bool setAllValues = false)
         {
-            var drop = GetMoneyDropMultiplier();
-            var price = GetItemPriceMultiplier();
+            var lastDrop = GetMoneyDropMultiplier();
+            var lastPrice = GetItemPriceMultiplier();
 
-            var validDrop = ToRange(drop, 0.01f, 10_000f, 1f);
-            var validPrice = ToRange(price, 0.01f, 10_000f, 1f);
+            var newDrop = ToRange(SafeToFloat(MoneyDropMultiplierText, 1f), 0.01f, 10_000f, 1f);
+            var newPrice = ToRange(SafeToFloat(ItemPriceMultiplierText, 1f), 0.01f, 10_000f, 1f);
 
-            if (drop != validDrop)
+            if (lastDrop != newDrop)
             {
-                MoneyDropMultiplierText = validDrop.ToString();
+                MoneyDropMultiplierText = newDrop.ToString();
+                _moneyDropMultiplier = newDrop;
             }
 
-            if (price != validPrice)
+            if (lastPrice != newPrice)
             {
-                ItemPriceMultiplierText = validPrice.ToString();
+                ItemPriceMultiplierText = newPrice.ToString();
+
+                if (setAllValues)
+                {
+                    _itemPriceMultiplier = newPrice;
+                }
             }
         }
 
@@ -71,9 +83,7 @@ namespace EconomyScaler
 
         public override void OnLoaded()
         {
-            EnsureValidValues();
+            EnsureValidValues(true);
         }
-
-        public override bool NeedsReload(ModConfig pendingConfig) => false;
     }
 }
