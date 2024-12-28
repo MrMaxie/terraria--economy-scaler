@@ -2,9 +2,9 @@
 
 <img src="icon.png" width="200" height="200">
 
-![Total Subscriptions](https://img.shields.io/endpoint?url=https%3A%2F%2Fshieldsio-steam-workshop.jross.me%2F3393301771&style=for-the-badge&label=Total%20Subscriptions&link=https%3A%2F%2Fsteamcommunity.com%2Fsharedfiles%2Ffiledetails%2F%3Fid%3D3393301771)
+![Total Subscriptions](https://img.shields.io/endpoint?url=https%3A%2F%2Fshieldsio-steam-workshop.jross.me%2F3393716685&style=for-the-badge&label=Total%20Subscriptions&link=https%3A%2F%2Fsteamcommunity.com%2Fsharedfiles%2Ffiledetails%2F%3Fid%3D3393716685)
 
-**[Link to item in Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3393301771)**
+**[Link to item in Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3393716685)**
 
 ---
 
